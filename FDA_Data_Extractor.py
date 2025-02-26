@@ -4,10 +4,17 @@ from tqdm import tqdm
 
 session = HTMLSession()
 
+headers = {
+	'accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+	'accept-encoding':'gzip, deflate, br, zstd',
+	'accept-language':'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
+	'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
+	'connection':'keep-alive'
+}
 
 def get_urls(url):
     baseurl = 'https://www.accessdata.fda.gov'
-    r = session.get(url)
+    r = session.get(url, headers=headers, timeout=10)
     datas = r.html.find('ul.collapse li')
     linkdata = []
     for item in datas:
@@ -71,11 +78,4 @@ for url in tqdm(urls):
     
 df = pd.DataFrame(mainlist)
 df.to_csv('lableData.csv', index=False)
-print('downloaded')
-
-
-
-
-
-    
-    
+print('download completed')
