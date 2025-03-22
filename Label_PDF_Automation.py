@@ -38,11 +38,11 @@ def get_label_data(response):
 
     for item in label_infos:
         try:
-            DrugName = item.find('#collapseProduct', first=True).text.split('\n')[-8]
+            drugName = item.find('#collapseProduct', first=True).text.split('\n')[-8]
             labelDate = item.find('#exampleLabels > tbody > tr:nth-child(1)', first=True).text.split('\n')[-5].replace('/', '-')
             labelurl = item.find('#exampleLabels > tbody > tr:nth-child(1) > td:nth-child(4) > a', first=True).attrs['href']
 
-            with open(os.path.join(pdf, f'{DrugName.replace(" ", "_")}_{labelDate}.pdf'), 'wb') as f:
+            with open(os.path.join(pdf, f'{drugName.replace(" ", "_")}_{labelDate}.pdf'), 'wb') as f:
                 pdfs = session.get(labelurl)
                 f.write(pdfs.content)
         except Exception as e:
